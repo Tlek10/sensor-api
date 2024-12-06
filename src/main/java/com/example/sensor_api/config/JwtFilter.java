@@ -28,13 +28,11 @@ public class JwtFilter extends OncePerRequestFilter {
         String username = null;
         String token = null;
 
-        // Извлекаем токен из заголовка
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7); // Убираем "Bearer "
             username = jwtUtil.extractUsername(token);
         }
 
-        // Проверяем токен и устанавливаем пользователя в контекст безопасности
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 

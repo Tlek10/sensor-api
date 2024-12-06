@@ -15,11 +15,10 @@ public class AuthClient {
 
     public AuthClient() {
         this.webClient = WebClient.builder()
-                .baseUrl("http://localhost:8080") // URL вашего API
+                .baseUrl("http://localhost:8080")
                 .build();
     }
 
-    // Метод для получения JWT токена
     public String getJwtToken(String username, String password) {
         try {
             Map<String, String> authRequest = new HashMap<>();
@@ -33,7 +32,6 @@ public class AuthClient {
                     .bodyToMono(Map.class)
                     .block();
 
-            // Предполагается, что в ответе есть поле "token"
             return response != null ? response.get("token") : null;
         } catch (WebClientResponseException e) {
             System.err.println("Error during login: " + e.getMessage());

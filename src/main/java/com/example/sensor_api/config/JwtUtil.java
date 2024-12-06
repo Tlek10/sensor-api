@@ -1,19 +1,18 @@
 package com.example.sensor_api.config;
 
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.JwtException;
 @Component
 public class JwtUtil {
     private final String SECRET_KEY = "secretsecretsecretsecretsecretsecret"; // Минимум 256 бит для HS256
     private final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
-    // Генерация токена
     public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
@@ -23,7 +22,6 @@ public class JwtUtil {
                 .compact();
     }
 
-    // Извлечение имени пользователя
     public String extractUsername(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
@@ -33,7 +31,6 @@ public class JwtUtil {
                 .getSubject();
     }
 
-    // Валидация токена
     public boolean validateToken(String token, String username) {
         try {
             String extractedUsername = extractUsername(token);
@@ -43,7 +40,6 @@ public class JwtUtil {
         }
     }
 
-    // Проверка на истечение токена
     private boolean isTokenExpired(String token) {
         Date expiration = Jwts.parserBuilder()
                 .setSigningKey(key)

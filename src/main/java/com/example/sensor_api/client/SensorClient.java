@@ -14,16 +14,14 @@ public class SensorClient {
 
     public SensorClient() {
         this.webClient = WebClient.builder()
-                .baseUrl("http://localhost:8080") // URL вашего API
+                .baseUrl("http://localhost:8080")
                 .build();
     }
 
-    // Установить JWT токен
     public void setJwtToken(String jwtToken) {
         this.jwtToken = jwtToken;
     }
 
-    // 1. Регистрация сенсора
     public void registerSensor(String sensorName) {
         try {
             webClient.post()
@@ -38,7 +36,6 @@ public class SensorClient {
         }
     }
 
-    // 2. Отправка измерений
     public void addMeasurement(double value, boolean raining, String sensorName) {
         try {
             MeasurementDTO measurement = new MeasurementDTO(value, raining, new SensorDTO(sensorName));
@@ -56,7 +53,6 @@ public class SensorClient {
         }
     }
 
-    // 3. Получение всех измерений
     public void getAllMeasurements() {
         try {
             webClient.get()
